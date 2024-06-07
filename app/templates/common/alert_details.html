@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>Details | Alert</title>
+</head>
+
+<body>
+    {% include 'components/navbar.html' %}
+
+    <div class="mb-5 mt-4">
+        <p class="h4 center text-center ">Alert Details</p>
+    </div>
+
+    <div class="container">
+      <div class="row justify-content-center ">
+        <div class="col-6">
+          <img src="{{url_for('static', filename='img/img.jpg')}}" class="img-thumbnail img-fluid" alt="">
+        </div>
+        <div class="col-4 d-flex" style="align-items: center;">
+          <table class="table ">
+            <tr>
+              <td>Alert ID</td>
+              <td>14</td>
+            </tr>
+            <tr>
+              <td>Type</td>
+              <td>Auto Generated</td>
+            </tr>
+            <tr>
+              <td>Branch ID</td>
+              <td>179</td>
+            </tr>
+            <tr>
+              <td>Time</td>
+              <td>13:37 PM 23/04/2023</td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td>-</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    {% include 'components/footer.html' %}
+    
+</body>
+</html>

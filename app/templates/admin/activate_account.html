@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>Activate Account | Users</title>
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+
+
+    <div class="container mt-5 mb-3 p-3">
+        <div class="mx-auto shadow px-5 pt-4 pb-4 border rounded" style="width: 400px;">
+            <p class="h5 center text-center">ACTIVATE ACCOUNT</p>
+      
+            <form class="row g-3 needs-validation mt-2" method="POST" novalidate>
+              
+              <div>
+                <label for="user_id" class="form-label" >User ID</label>
+                <input type="text" class="form-control" id="user_id" name="user_id" pattern="\d{5}" required>
+                <div class="invalid-feedback">
+                  Please enter a valid username.
+                </div>
+              </div>
+
+              
+              <div class="d-grid mt-4 mb-3">
+                <button class="btn btn-dark py-2 fw-bold" type="submit">ACTIVATE</button>
+              </div>
+            </form>
+      
+          </div>
+    </div>
+
+    {% include 'components/footer.html' %}
+    
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>View | Robbers</title>
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+  <div class="mb-5 mt-4">
+    <p class="h4 center text-center ">VIEW ROBBERS</p>
+  </div>
+
+  <div class="container my-3">
+    <div class="row justify-content-end">
+      <div class="col-3">
+        <div class="input-group mx-0">
+          <input type="text" class="form-control" id="search_text_robber" name="search_text_robber">
+          <div class="input-group-text">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr class="table-dark">
+          <th scope="col">No</th>
+          <th scope="col">Robber ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Added By</th>
+          <th scope="col">Time</th>
+        </tr>
+      </thead>
+      <tbody id="robber_table_body">
+        {% for robber in robbers %}
+          
+          <tr class="clickable-row" data-href="{{ url_for('common_bp.robber_details', robber_id=robber[0]) }}">
+              <td>{{ loop.index }}</td>
+              <td>{{ robber[0] }}</td>
+              <td>{{ robber[1] }}</td>
+              <td>{{ robber[2] }}</td>
+              <td>{{ robber[3] }}</td>
+              <td>{{ robber[4] }}</td>
+          </tr>
+          
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+  {% include 'components/footer.html' %}
+    
+</body>
+</html>

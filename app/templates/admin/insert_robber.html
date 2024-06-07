@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>Insert | Robbers</title>
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+
+
+    <div class="container mt-5 mb-3 p-3">
+        <div class="mx-auto shadow px-5 pt-4 pb-4 border rounded" style="width: 400px;">
+            <p class="h5 center text-center">INSERT ROBBERS</p>
+      
+            <form class="row g-3 needs-validation mt-2" method="POST" enctype="multipart/form-data" novalidate>
+              
+              <div>
+                <label for="robber_id" class="form-label">Robber ID</label>
+                <input type="text" class="form-control" id="robber_id" name="robber_id" pattern="\d{5}" required>
+                <div class="invalid-feedback">
+                  Please enter a valid Robber Id.
+                </div>
+              </div>
+
+              <div>
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+                <div class="invalid-feedback">
+                  Please enter a name.
+                </div>
+              </div>
+
+              <div>
+                <label for="image" class="form-label">Image</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                <div class="invalid-feedback">
+                  Please choose a Image.
+                </div>
+              </div>
+
+              <div>
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="2" name="description" required></textarea>
+                <div class="invalid-feedback">
+                  Please provide a valid description.
+                </div>
+              </div>
+
+              <div class="d-grid mt-4 mb-3">
+                <button class="btn btn-dark py-2 fw-bold" type="submit">INSERT</button>
+              </div>
+            </form>
+      
+          </div>
+    </div>
+
+    {% include 'components/footer.html' %}
+    
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>View | Alerts</title>
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+  <div class="mb-5 mt-4">
+    <p class="h4 center text-center ">VIEW ALERTS</p>
+  </div>
+
+  <div class="container my-3">
+    <div class="row justify-content-end">
+      <div class="col-3">
+        <div class="input-group mx-0">
+          <input type="text" class="form-control" name="search_text">
+          <div class="input-group-text">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr class="table-dark">
+          <th scope="col">No</th>
+          <th scope="col">Alert ID</th>
+          <th scope="col">Time</th>
+          <th scope="col">Branch ID</th>
+          <th scope="col">Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Mark</td>
+          <td>Otto</td>
+          <td>@mdo</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jacob</td>
+          <td>Thornton</td>
+          <td>@fat</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  {% include 'components/footer.html' %}
+    
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>Detials | Blacklisted Customers</title>
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+  <div class="container mt-5 mb-3 p-3 mx-auto shadow px-5 py-3 pb-4 border rounded" style="width: 400px;">
+    <p class="h5 center text-center">BLACKLISTED CUSTOMER DETAILS</p>
+    
+    <img src="data:image/jpeg;base64,{{ photo_base64 }}" class="my-2 d-block mx-auto border rounded-circle col-10 img-fluid" alt="">
+
+    <table class="table text-center">
+      <tr>
+        <td class="text-start">CIF Number</td>
+        <td>{{ customer[0] }}</td>
+      </tr>
+      <tr>
+        <td class="text-start">Added By</td>
+        <td>{{ customer[3] }}</td>
+      </tr>
+      <tr>
+        <td class="text-start">Time</td>
+        <td>{{ customer[4] }}</td>
+      </tr>
+      <tr>
+        <td class="text-start">Description</td>
+        <td>{{ customer[2] }}</td>
+      </tr>
+    </table>
+    
+  </div>
+
+  {% include 'components/footer.html' %}
+    
+</body>
+</html>

@@ -1,0 +1,29 @@
+.card{
+    cursor: pointer;
+    text-decoration: none;
+}
+.card:hover{
+    background-color: rgb(236, 236, 236);
+}
+.card:active{
+    background-color: rgb(255, 255, 255);
+}
+p,h1,h2,h3,h4,h5,label,a,button{
+    user-select: none;
+}
+table{
+    user-select: none;
+}
+.input-group-text{
+    cursor: pointer;
+}
+.input-group-text:hover{
+    background-color: rgb(236, 236, 236);
+}
+.input-group-text:active{
+    background-color: rgb(255, 255, 255);
+}
+
+.clickable-row {
+    cursor: pointer;
+  }

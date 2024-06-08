@@ -10,6 +10,6 @@ dbHandler = DatabaseHandler()
 @officer_bp.route('/home')
 @login_required
 @officer_required
-def officer_home():
+def home():
     return render_template('officer/home.html')
 

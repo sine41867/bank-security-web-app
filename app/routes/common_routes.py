@@ -11,8 +11,8 @@ dbHandler = DatabaseHandler()
 #for testing purpose
 @common_bp.route('/test')
 def test():
-    #dbHandler.test()
-    return "Test Success"
+    return dbHandler.test()
+    #return "Test Success"
     return render_template('test.html')
 
 @common_bp.route('/', methods=['GET', 'POST'])
@@ -25,11 +25,8 @@ def login():
         dbHandler = DatabaseHandler()
         
         user = dbHandler.check_credential(user_id=user_id, password= password)
+
         if user :
-            if user.status == 1:
-                flash('Inactive User', category='danger')
-                return redirect(url_for('common_bp.login'))
-            
             login_user(user)
 
             next = request.args.get('next')
@@ -46,6 +43,8 @@ def login():
             
             if user.user_type == 1:
                 return redirect(url_for(next or 'admin_bp.home'))
+        else:
+            return redirect(url_for('common_bp.login'))
         
     return render_template('common/login.html')
 
@@ -54,11 +53,6 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('common_bp.login'))
-
-@common_bp.route('/view_alerts')
-@login_required
-def view_alerts():
-    return render_template('common/view_alerts.html')
 
 @common_bp.route('/view_blacklisted_customers')
 @login_required
@@ -123,3 +117,37 @@ def search_robbers():
     robber = dbHandler.get_all_robbers(search_text)
 
     return jsonify(robber)
+
+
+#-------------------------------------------------------------------
+@common_bp.route('/view_alerts')
+@login_required
+def view_alerts():
+
+    dbHandler = DatabaseHandler()
+    alerts = dbHandler.get_all_alerts(None)
+
+    return render_template('common/view_alerts.html', alerts = alerts)
+
+@common_bp.route('/alert/<alert_id>')
+@login_required
+def alert_details(alert_id):
+    
+    dbHandler = DatabaseHandler()
+    alert = dbHandler.get_alert(alert_id)
+    if alert:
+        photo_base64 = base64.b64encode(alert[3]).decode('utf-8')
+        return render_template('common/alert_details.html', alert=alert, photo_base64=photo_base64)
+    else:
+        flash('Alert not found', category='danger')
+        return redirect(url_for('common_bp.view_alerts'))
+
+@common_bp.route('/search_alert', methods = ['GET'])
+@login_required
+def search_alert():
+    search_text = request.args.get('search_text', '')
+
+    dbHandler = DatabaseHandler()
+    alerts = dbHandler.get_all_alerts(search_text)
+
+    return jsonify(alerts)

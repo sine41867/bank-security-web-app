@@ -91,15 +91,21 @@ class DatabaseHandler:
             result = cursor.fetchone()
             conn.close()
 
+            if result and (result[5] > 2):
+                flash('Your Account is deactivated.', category='danger')
+                return None
+
             if result:
                 from app import bcrypt
                 
                 isPasswordValid = bcrypt.check_password_hash(result[1],password)
-
+                
                 if isPasswordValid:
-                    user = User(result[0], result[2],result[3], result[4],result[5])
+                    self.set_invalid_attempts(user_id,-1)
+                    user = User(result[0], result[2],result[3], result[4], None, result[5])
                     return user
                 else:
+                    self.set_invalid_attempts(user_id, result[5])
                     flash("Invalid Passoword", category='danger')
                     return None
             else:
@@ -108,15 +114,31 @@ class DatabaseHandler:
                   
         except Exception as e:
             flash(str({e}), category='danger')
-    
+                    
+    def set_invalid_attempts(self, user_id, current_attempts):
+        conn = self.connection()
+        if not conn :
+            return
+        
+        try:
+            query = "UPDATE tbl_users SET invalid_attempts = '%s' WHERE user_id = %s"
+            data = ((current_attempts + 1), user_id,)
+            cursor = conn.cursor()
+            cursor.execute(query, data)
+            conn.commit()
+            conn.close()
+
+        except Exception as e:
+            flash(str({e}), category='danger')
+
     def insert_user(self, user):
         conn = self.connection()
         if not conn :
             return
         
         try:
-            query = "INSERT INTO tbl_users (user_id, password, status, type, inserted_by, time) VALUES (%s, %s, %s, %s, %s, %s)"
-            data = (user.user_id, user.password, user.status,user.user_type, user.inserted_by,user.time)
+            query = "INSERT INTO tbl_users (user_id, password, type, inserted_by, time, invalid_attempts) VALUES (%s, %s, %s, %s, %s, %s)"
+            data = (user.user_id, user.password, user.user_type, user.inserted_by,user.time,user.invalid_attempts)
             cursor = conn.cursor()
             cursor.execute(query, data)
             conn.commit()
@@ -279,8 +301,8 @@ class DatabaseHandler:
             return
         
         try:
-            if not self.isBlacklisted(conn, robber_id):
-                flash('Invalid CIF Number...', category='danger')
+            if not self.isRobber(conn, robber_id):
+                flash('Invalid Robber ID...', category='danger')
                 conn.close()
                 return
             
@@ -329,7 +351,7 @@ class DatabaseHandler:
                 conn.close()
                 return
                 
-            query = "UPDATE tbl_users SET status = '%s' WHERE user_id = %s"
+            query = "UPDATE tbl_users SET invalid_attempts = '%s' WHERE user_id = %s"
             data = (0, user_id,)
             cursor = conn.cursor()
             cursor.execute(query, data)
@@ -363,11 +385,54 @@ class DatabaseHandler:
         except Exception as e:
             flash(str({e}), category='danger')
             
+    def get_all_alerts(self, search_text):
+        conn = self.connection()
+        
+        if not conn :
+            return
+        
+        try:
+            cursor = conn.cursor()
+            if search_text:
+                query = "SELECT alert_id, type, description, time, branch_id, generated_by FROM tbl_alerts WHERE alert_id LIKE %s OR type LIKE %s OR time LIKE %s OR description LIKE %s OR branch_id LIKE %s OR generated_by LIKE %s"
+                data = ('%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%')
+                cursor.execute(query, data)
+                
+            else:
+                query = "SELECT alert_id, type, description, time, branch_id, generated_by FROM tbl_alerts"
+                cursor.execute(query)
+            
+            alerts = cursor.fetchall()
+            conn.close()
+
+            return alerts
+                  
+        except Exception as e:
+            flash(str({e}), category='danger')
+    
+    def get_alert(self, alert_id):
+        conn = self.connection()
+        
+        if not conn :
+            return
+        
+        try:
+            query = "SELECT * FROM tbl_alerts WHERE alert_id=%s"
+            cursor = conn.cursor()
+            cursor.execute(query, alert_id)
+            alert = cursor.fetchone()
+            conn.close()
+
+            return alert
+                  
+        except Exception as e:
+            flash(str({e}), category='danger')
+    
     #for testing purpose
     def test(self):
         from app import bcrypt
         hashed_password = bcrypt.generate_password_hash("pass").decode('utf-8')
-        user_id = "11111"
+        user_id = "00000"
 
         query2 = "UPDATE tbl_users SET password = %s WHERE user_id = %s"
 

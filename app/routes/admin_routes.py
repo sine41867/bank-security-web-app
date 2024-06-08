@@ -44,6 +44,8 @@ def delete_blacklisted_customer():
                 
         dbHandler.delete_blacklisted_customer(cif_no)
 
+        return redirect(url_for('admin_bp.delete_blacklisted_customer'))
+
     return render_template('admin/delete_blacklisted_customer.html')
 
 @admin_bp.route('/insert_blacklisted_customer', methods=['GET', 'POST'])
@@ -82,6 +84,8 @@ def insert_blacklisted_customer():
 
             dbHandler.insert_blacklisted_customer(blacklisted_customer)
 
+            return redirect(url_for('admin_bp.insert_blacklisted_customer'))
+
     return render_template('admin/insert_blacklisted_customer.html')
 
 @admin_bp.route('/create_account', methods=['GET', 'POST'])
@@ -97,10 +101,12 @@ def create_account():
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         
-        user = User(user_id,0,user_type,current_user.user_id,time_stamp,hashed_password)
+        user = User(user_id,user_type,current_user.user_id,time_stamp,hashed_password)
         
 
         dbHandler.insert_user(user)
+
+        return redirect(url_for('admin_bp.create_account'))
 
     return render_template('admin/create_account.html')
 
@@ -115,6 +121,8 @@ def activate_account():
         
         dbHandler.activate_account(user_id)
 
+        return redirect(url_for('admin_bp.activate_account'))
+
     return render_template('admin/activate_account.html')
 
 @admin_bp.route('/delete_account', methods=['GET', 'POST'])
@@ -126,6 +134,8 @@ def delete_account():
         user_id = request.form['user_id']
                 
         dbHandler.delete_user(user_id)
+
+        return redirect(url_for('admin_bp.delete_account'))
 
     return render_template('admin/delete_account.html')
 
@@ -140,13 +150,15 @@ def reset_password():
     
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
     
-        user = User(user_id,None,None,None,None,hashed_password)  
+        user = User(user_id,None,None,None,hashed_password)  
 
         dbHandler.reset_password(user)
 
+        return redirect(url_for('admin_bp.reset_password'))
+
     return render_template('admin/reset_password.html')
 
-@admin_bp.route('/delete_robbers')
+@admin_bp.route('/delete_robber', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def delete_robber():
@@ -154,6 +166,8 @@ def delete_robber():
         robber_id = request.form['robber_id']
                 
         dbHandler.delete_robber(robber_id)
+
+        return redirect(url_for('admin_bp.delete_robber'))
 
     return render_template('admin/delete_robber.html')
 
@@ -168,8 +182,6 @@ def insert_robber():
         description = request.form['description']
         file = request.files['image']
         
-        
-        # Handle the image file
         if 'image' not in request.files:
             flash('No file part')
             return redirect(request.url)
@@ -194,5 +206,7 @@ def insert_robber():
             )
 
             dbHandler.insert_robber(robber)
+
+            return redirect(url_for('admin_bp.insert_robber'))
 
     return render_template('admin/insert_robber.html')

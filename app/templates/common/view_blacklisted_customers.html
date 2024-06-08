@@ -34,20 +34,20 @@
           <th scope="col">No</th>
           <th scope="col">CIF No</th>
           <th scope="col">Description</th>
-          <th scope="col">Added By</th>
+          <th scope="col">Inserted By</th>
           <th scope="col">Time</th>
         </tr>
       </thead>
       <tbody id="customer_table_body">
         {% for customer in customers %}
           
-          <tr class="clickable-row" data-href="{{ url_for('common_bp.blacklisted_customer_details', cif_no=customer[0]) }}">
-              <td>{{ loop.index }}</td>
-              <td>{{ customer[0] }}</td>
-              <td>{{ customer[1] }}</td>
-              <td>{{ customer[2] }}</td>
-              <td>{{ customer[3] }}</td>
-          </tr>
+        <tr class="clickable-row" data-href="{{ url_for('common_bp.blacklisted_customer_details', cif_no=customer[0]) }}">
+          <td>{{ loop.index }}</td>
+          <td>{{ customer[0] }}</td>
+          <td>{{ customer[1] }}</td>
+          <td>{{ customer[2] }}</td>
+          <td>{{ customer[3] }}</td>
+      </tr>
           
         {% endfor %}
       </tbody>
@@ -56,6 +56,7 @@
 
 
   {% include 'components/footer.html' %}
-    
+  <script src="{{ url_for('static', filename='js/script-blacklisted.js') }}"></script> 
+
 </body>
 </html>

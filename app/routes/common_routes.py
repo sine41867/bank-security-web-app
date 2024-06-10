@@ -8,8 +8,19 @@ from app.models.database_handler import DatabaseHandler
 common_bp = Blueprint('common_bp', __name__)
 dbHandler = DatabaseHandler()
 
+data = {"message": ""}
+
+@common_bp.route('/update-data/<new_message>', methods=['POST'])
+def update_data(new_message):
+    data['message'] = new_message
+    return jsonify({"status": "success", "new_message": new_message})
+
+@common_bp.route('/get-data')
+def get_data():
+    return jsonify(data)
+
 #for testing purpose
-@common_bp.route('/test')
+@common_bp.route('/test',)
 def test():
     return dbHandler.test()
     #return "Test Success"

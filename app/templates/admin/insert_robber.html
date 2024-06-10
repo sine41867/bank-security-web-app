@@ -59,9 +59,12 @@
     </div>
 
     {% include 'components/footer.html' %}
-    <div class="fixed-bottom d-flex justify-content-start p-3 ml-3 mb-3">
-      <div id="data-div" class="btn btn-danger"></div>
-    </div>
+    <div class="fixed-bottom d-flex justify-content-start p-3 ml-3 mb-3" style="right: auto;">
+    <a href="{{url_for('common_bp.view_alerts')}}">
+        <div id="data-div" class="btn btn-danger"></div>
+      </a>
+  </div>
+  
     <script src="{{ url_for('static', filename='js/new-alert.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     

@@ -8,7 +8,7 @@ from app.models.database_handler import DatabaseHandler
 common_bp = Blueprint('common_bp', __name__)
 dbHandler = DatabaseHandler()
 
-data = {"message": ""}
+data = {"message": "Safe"}
 
 @common_bp.route('/update-data/<new_message>', methods=['POST'])
 def update_data(new_message):

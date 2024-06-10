@@ -394,12 +394,12 @@ class DatabaseHandler:
         try:
             cursor = conn.cursor()
             if search_text:
-                query = "SELECT alert_id, type, description, time, branch_id, generated_by FROM tbl_alerts WHERE alert_id LIKE %s OR type LIKE %s OR time LIKE %s OR description LIKE %s OR branch_id LIKE %s OR generated_by LIKE %s"
+                query = "SELECT alert_id, type, description, time, branch_id, generated_by FROM tbl_alerts WHERE alert_id LIKE %s OR type LIKE %s OR time LIKE %s OR description LIKE %s OR branch_id LIKE %s OR generated_by LIKE %s ORDER BY alert_id DESC"
                 data = ('%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%')
                 cursor.execute(query, data)
                 
             else:
-                query = "SELECT alert_id, type, description, time, branch_id, generated_by FROM tbl_alerts"
+                query = "SELECT alert_id, type, description, time, branch_id, generated_by FROM tbl_alerts ORDER BY alert_id DESC"
                 cursor.execute(query)
             
             alerts = cursor.fetchall()

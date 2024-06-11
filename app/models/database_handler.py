@@ -427,7 +427,42 @@ class DatabaseHandler:
                   
         except Exception as e:
             flash(str({e}), category='danger')
-    
+
+    def check_alert(self, alert_id, user_id):
+            conn = self.connection()
+            
+            if not conn :
+                return
+            
+            try:
+                query = "UPDATE tbl_alerts SET checked_by = %s WHERE alert_id = %s"
+                data = (user_id, alert_id)
+                conn.cursor().execute(query,data)
+                conn.commit()
+                conn.close()
+
+                flash('Alert Checked...' , category='success')
+                    
+            except Exception as e:
+                flash(str({e}), category='danger')
+        
+    def create_alert(self, alert):
+        conn = self.connection()
+        if not conn:
+            return
+        
+        try:
+            query = "INSERT INTO tbl_alerts (type, description, photo, time, branch_id, generated_by) VALUES (%s, %s, %s, %s, %s, %s)"
+            data = (alert.alert_type, alert.description, alert.photo, alert.time, alert.branch_id,alert.generated_by,)
+            cursor = conn.cursor()
+            cursor.execute(query, data)
+            conn.commit()
+            conn.close()
+
+        except Exception as e:
+            flash(str({e}), category='danger')
+
+
     #for testing purpose
     def test(self):
         from app import bcrypt

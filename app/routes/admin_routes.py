@@ -116,11 +116,13 @@ def create_account():
 def activate_account():
 
     if request.method == 'POST':
-        
         user_id = request.form['user_id']
-        
-        dbHandler.activate_account(user_id)
 
+        if current_user.user_id != user_id:
+            dbHandler.activate_account(user_id)
+        else:
+            flash('You can not activate your own account.' , category='danger')
+       
         return redirect(url_for('admin_bp.activate_account'))
 
     return render_template('admin/activate_account.html')
@@ -132,8 +134,11 @@ def delete_account():
 
     if request.method == 'POST':
         user_id = request.form['user_id']
-                
-        dbHandler.delete_user(user_id)
+
+        if current_user.user_id != user_id:
+            dbHandler.delete_user(user_id) 
+        else:
+            flash('You can not delete your own account.' , category='danger')
 
         return redirect(url_for('admin_bp.delete_account'))
 
@@ -147,12 +152,15 @@ def reset_password():
     if request.method == 'POST':
         user_id = request.form['user_id']
         password = request.form['password']
-    
-        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    
-        user = User(user_id,None,None,None,hashed_password)  
 
-        dbHandler.reset_password(user)
+        if current_user.user_id != user_id:
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    
+            user = User(user_id,None,None,None,hashed_password)  
+
+            dbHandler.reset_password(user)
+        else:
+            flash('You can not reset your own password.' , category='danger')
 
         return redirect(url_for('admin_bp.reset_password'))
 

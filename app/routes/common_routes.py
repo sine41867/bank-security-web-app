@@ -1,14 +1,16 @@
 from flask import request, redirect, url_for, render_template, flash, jsonify, Blueprint
-from flask_login import login_required, logout_user, login_user
+from flask_login import login_required, logout_user, login_user, current_user
 import base64
 from app.models.database_handler import DatabaseHandler
-#from app import bcrypt
+from app.models.alert import Alert
+#from ...config import Config
+import datetime
 
 
 common_bp = Blueprint('common_bp', __name__)
 dbHandler = DatabaseHandler()
 
-data = {"message": "Safe"}
+data = {"message": ""}
 
 @common_bp.route('/update-data/<new_message>', methods=['POST'])
 def update_data(new_message):
@@ -18,6 +20,40 @@ def update_data(new_message):
 @common_bp.route('/get-data')
 def get_data():
     return jsonify(data)
+
+@common_bp.route('/inform_police')
+def inform_police():
+    
+    alert = Alert(
+                alert_type="manual",
+                description= "inform police",
+                branch_id="179", #Config.BRANCH_ID
+                time=datetime.datetime.now(),
+                photo=None,
+                generated_by = current_user.user_id if current_user else "Anonymous"
+            )
+
+    dbHandler.create_alert(alert)
+    flash("Informed...", category="danger")
+
+    return redirect(url_for("common_bp.login"))
+
+@login_required
+@common_bp.route('/disable_transaction')
+def disable_transaction():
+    alert = Alert(
+                alert_type="manual",
+                description= "disable transaction",
+                branch_id="179", #Config.BRANCH_ID
+                time=datetime.datetime.now(),
+                photo=None,
+                generated_by = current_user.user_id
+            )
+
+    dbHandler.create_alert(alert)
+    flash("Disabled...", category="danger")
+
+    return redirect(url_for("common_bp.login"))
 
 #for testing purpose
 @common_bp.route('/test',)
@@ -147,8 +183,11 @@ def alert_details(alert_id):
     dbHandler = DatabaseHandler()
     alert = dbHandler.get_alert(alert_id)
     if alert:
-        photo_base64 = base64.b64encode(alert[3]).decode('utf-8')
-        return render_template('common/alert_details.html', alert=alert, photo_base64=photo_base64)
+        if alert[3]:
+            photo_base64 = base64.b64encode(alert[3]).decode('utf-8')
+            return render_template('common/alert_details.html', alert=alert, photo_base64=photo_base64)
+        else:
+            return render_template('common/alert_details.html', alert=alert, photo_base64=None)
     else:
         flash('Alert not found', category='danger')
         return redirect(url_for('common_bp.view_alerts'))
@@ -162,3 +201,13 @@ def search_alert():
     alerts = dbHandler.get_all_alerts(search_text)
 
     return jsonify(alerts)
+
+@common_bp.route('/check_alert/<alert_id>')
+@login_required
+def check_alert(alert_id):
+    
+    dbHandler = DatabaseHandler()
+    dbHandler.check_alert(alert_id, current_user.user_id)
+    data['message'] = ""
+    return redirect(url_for("common_bp.alert_details", alert_id = alert_id))
+   

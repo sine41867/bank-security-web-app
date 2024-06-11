@@ -48,6 +48,18 @@
               <td>Description</td>
               <td>{{alert[2]}}</td>
             </tr>
+            <tr>
+              <td>Checked By</td>
+              <td>
+                {% if not alert[7] %}
+                  <a class="btn btn-danger" href="{{ url_for('common_bp.check_alert', alert_id=alert[0]) }}">Check</a>
+                {% else %}
+                  {{alert[7]}}
+                {% endif %}
+                
+              </td>
+            </tr>
+          
           </table>
         </div>
       </div>

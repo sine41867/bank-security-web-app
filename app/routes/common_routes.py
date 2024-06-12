@@ -5,6 +5,7 @@ from app.models.database_handler import DatabaseHandler
 from app.models.alert import Alert
 #from ...config import Config
 import datetime
+from app.models.messages import Messages
 
 
 common_bp = Blueprint('common_bp', __name__)
@@ -21,6 +22,7 @@ def update_data(new_message):
 def get_data():
     return jsonify(data)
 
+@login_required
 @common_bp.route('/inform_police')
 def inform_police():
     
@@ -34,7 +36,7 @@ def inform_police():
             )
 
     dbHandler.create_alert(alert)
-    flash("Informed...", category="danger")
+    flash(Messages.police_informed, category="danger")
 
     return redirect(url_for("common_bp.login"))
 
@@ -51,14 +53,14 @@ def disable_transaction():
             )
 
     dbHandler.create_alert(alert)
-    flash("Disabled...", category="danger")
+    flash(Messages.transaction_disabled, category="danger")
 
     return redirect(url_for("common_bp.login"))
 
 #for testing purpose
 @common_bp.route('/test',)
 def test():
-    return dbHandler.test()
+    #return dbHandler.test()
     #return "Test Success"
     return render_template('test.html')
 
@@ -129,7 +131,7 @@ def blacklisted_customer_details(cif_no):
         photo_base64 = base64.b64encode(customer[1]).decode('utf-8')
         return render_template('common/blacklisted_customer_details.html', customer=customer, photo_base64=photo_base64)
     else:
-        flash('Blacklisted Customer not found', category='danger')
+        flash(Messages.blacklisted_not_found, category='danger')
         return redirect(url_for('common_bp.view_blacklisted_customers'))
 
 @common_bp.route('/robber/<robber_id>')
@@ -142,7 +144,7 @@ def robber_details(robber_id):
         photo_base64 = base64.b64encode(robber[2]).decode('utf-8')
         return render_template('common/robber_details.html', robber=robber, photo_base64=photo_base64)
     else:
-        flash('Robber not found', category='danger')
+        flash(Messages.robber_not_found, category='danger')
         return redirect(url_for('common_bp.view_robbers'))
 
 @common_bp.route('/search_blacklisted', methods = ['GET'])
@@ -189,7 +191,7 @@ def alert_details(alert_id):
         else:
             return render_template('common/alert_details.html', alert=alert, photo_base64=None)
     else:
-        flash('Alert not found', category='danger')
+        flash(Messages.alert_not_found, category='danger')
         return redirect(url_for('common_bp.view_alerts'))
 
 @common_bp.route('/search_alert', methods = ['GET'])

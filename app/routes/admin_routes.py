@@ -6,7 +6,8 @@ from app.models.user import User
 from app.models.robber import Robber
 from app.utils.file_utils import allowed_file
 from app.utils.decorators import admin_required
-from datetime import datetime
+import datetime
+from app.models.messages import Messages
 
 admin_bp = Blueprint('admin_bp', __name__)
 dbHandler = DatabaseHandler()
@@ -18,8 +19,8 @@ def home():
     return render_template('admin/home.html')
 
 @admin_bp.route('/users')
-@admin_required
 @login_required
+@admin_required
 def users():
     return render_template('admin/users.html')
 
@@ -57,7 +58,7 @@ def insert_blacklisted_customer():
         description = request.form['description']
         file = request.files['image']
         
-        
+        '''
         # Handle the image file
         if 'image' not in request.files:
             flash('No file part')
@@ -67,7 +68,7 @@ def insert_blacklisted_customer():
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
-        
+        '''
 
         if file and allowed_file(file.filename):
             photo = file.read()
@@ -121,7 +122,7 @@ def activate_account():
         if current_user.user_id != user_id:
             dbHandler.activate_account(user_id)
         else:
-            flash('You can not activate your own account.' , category='danger')
+            flash(Messages.activate_own_account_error , category='danger')
        
         return redirect(url_for('admin_bp.activate_account'))
 
@@ -138,7 +139,7 @@ def delete_account():
         if current_user.user_id != user_id:
             dbHandler.delete_user(user_id) 
         else:
-            flash('You can not delete your own account.' , category='danger')
+            flash(Messages.delete_own_account_error , category='danger')
 
         return redirect(url_for('admin_bp.delete_account'))
 
@@ -160,7 +161,7 @@ def reset_password():
 
             dbHandler.reset_password(user)
         else:
-            flash('You can not reset your own password.' , category='danger')
+            flash(Messages.reset_own_password_error , category='danger')
 
         return redirect(url_for('admin_bp.reset_password'))
 
@@ -189,6 +190,8 @@ def insert_robber():
         name = request.form['name']
         description = request.form['description']
         file = request.files['image']
+
+        '''
         
         if 'image' not in request.files:
             flash('No file part')
@@ -199,11 +202,12 @@ def insert_robber():
             flash('No selected file')
             return redirect(request.url)
         
+            '''
 
         if file and allowed_file(file.filename):
             photo = file.read()
 
-            time_stamp = datetime.now()
+            time_stamp = datetime.datetime.now()
             robber = Robber(
                 robber_id=robber_id,
                 name=name,

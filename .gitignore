@@ -96,6 +96,7 @@ celerybeat-schedule
 
 # VS Code
 .vscode/
+.vs
 
 # macOS
 .DS_Store

@@ -1,6 +1,7 @@
 import pymysql
 from flask import flash
 from app.models.user import User
+from app.models.messages import Messages
 
 class DatabaseHandler:
   
@@ -15,7 +16,7 @@ class DatabaseHandler:
             conn = pymysql.connect(host= self.db_host, user = self.db_user, password= self.db_password, database= self.db_name)
             return conn
         except Exception as e:
-            flash(str(e), category='danger')        
+            flash(Messages.db_connection_error, category='danger')        
     
     def isUser(self,conn, user_id):
         try:
@@ -29,7 +30,7 @@ class DatabaseHandler:
             else:
                 return False
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
     
     def isRobber(self, conn, robber_id):
         try:
@@ -43,7 +44,7 @@ class DatabaseHandler:
             else:
                 return False
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
     
     def isBlacklisted(self, conn, cif_no):
         try:
@@ -57,7 +58,7 @@ class DatabaseHandler:
             else:
                 return False
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def load_user(self, user_id):
         conn = self.connection()
@@ -77,7 +78,7 @@ class DatabaseHandler:
             return None
     
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
             
     def check_credential(self, user_id, password):
         conn = self.connection()
@@ -92,7 +93,7 @@ class DatabaseHandler:
             conn.close()
 
             if result and (result[5] > 2):
-                flash('Your Account is deactivated.', category='danger')
+                flash(Messages.deactivated_account, category='danger')
                 return None
 
             if result:
@@ -106,14 +107,14 @@ class DatabaseHandler:
                     return user
                 else:
                     self.set_invalid_attempts(user_id, result[5])
-                    flash("Invalid Passoword", category='danger')
+                    flash(Messages.invalid_password, category='danger')
                     return None
             else:
-                flash('Invalid User ID', category='danger')
+                flash(Messages.invalid_user_id, category='danger')
                 return None
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
                     
     def set_invalid_attempts(self, user_id, current_attempts):
         conn = self.connection()
@@ -129,7 +130,7 @@ class DatabaseHandler:
             conn.close()
 
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def insert_user(self, user):
         conn = self.connection()
@@ -144,10 +145,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Inserted...', category='success')
+            flash(Messages.user_creation_success, category='success')
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.user_alreday_exist_error, category='danger')
 
     def insert_blacklisted_customer(self, blacklisted_customer):
         conn = self.connection()
@@ -163,10 +164,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Inserted...', category='success')
+            flash(Messages.blacklisted_creation_success, category='success')
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.blacklisted_alreday_exist_error, category='danger')
 
     def insert_robber(self, robber):
         conn = self.connection()
@@ -182,10 +183,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Inserted...', category='success')
+            flash(Messages.robber_creation_success, category='success')
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.robber_alreday_exist_error, category='danger')
 
     def get_all_blacklisted_customers(self, search_text):
         conn = self.connection()
@@ -210,7 +211,7 @@ class DatabaseHandler:
             return blacklisted_customers
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
     
     def get_blacklisted_customer(self, cif_no):
         conn = self.connection()
@@ -228,7 +229,7 @@ class DatabaseHandler:
             return blacklisted_customer
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
     
     def get_all_robbers(self, search_text):
         conn = self.connection()
@@ -253,7 +254,7 @@ class DatabaseHandler:
             return robber
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
     
     def get_robber(self, robber_id):
         conn = self.connection()
@@ -271,7 +272,7 @@ class DatabaseHandler:
             return robber
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def delete_blacklisted_customer(self, cif_no):
         conn = self.connection()
@@ -280,7 +281,7 @@ class DatabaseHandler:
         
         try:
             if not self.isBlacklisted(conn, cif_no):
-                flash('Invalid CIF Number...', category='danger')
+                flash(Messages.invalid_cif_no, category='danger')
                 conn.close()
                 return
             
@@ -290,10 +291,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Deleted...', category='success')
+            flash(Messages.blacklisted_deleted_success, category='success')
              
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def delete_robber(self, robber_id):
         conn = self.connection()
@@ -302,7 +303,7 @@ class DatabaseHandler:
         
         try:
             if not self.isRobber(conn, robber_id):
-                flash('Invalid Robber ID...', category='danger')
+                flash(Messages.invalid_robber_id, category='danger')
                 conn.close()
                 return
             
@@ -312,10 +313,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Deleted...', category='success')
+            flash(Messages.robber_deleted_success, category='success')
              
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def reset_password(self, user):
         conn = self.connection()
@@ -324,7 +325,7 @@ class DatabaseHandler:
         
         try:
             if not self.isUser(conn, user.user_id):
-                flash('Invalid User ID...', category='danger')
+                flash(Messages.invalid_user_id, category='danger')
                 conn.close()
                 return
                 
@@ -335,10 +336,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Resetted...', category='success')
+            flash(Messages.password_reset_success, category='success')
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def activate_account(self, user_id):
         conn = self.connection()
@@ -347,7 +348,7 @@ class DatabaseHandler:
         
         try:
             if not self.isUser(conn, user_id):
-                flash('Invalid User ID...', category='danger')
+                flash(Messages.invalid_user_id, category='danger')
                 conn.close()
                 return
                 
@@ -358,10 +359,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Acivated...', category='success')
+            flash(Messages.user_activate_success, category='success')
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def delete_user(self, user_id):
         conn = self.connection()
@@ -370,7 +371,7 @@ class DatabaseHandler:
         
         try:
             if not self.isUser(conn, user_id):
-                flash('Invalid User ID...', category='danger')
+                flash(Messages.invalid_user_id, category='danger')
                 conn.close()
                 return
 
@@ -380,10 +381,10 @@ class DatabaseHandler:
             conn.commit()
             conn.close()
 
-            flash('Deleted...', category='success')
+            flash(Messages.user_deleted_success, category='success')
              
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
             
     def get_all_alerts(self, search_text):
         conn = self.connection()
@@ -408,7 +409,7 @@ class DatabaseHandler:
             return alerts
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
     
     def get_alert(self, alert_id):
         conn = self.connection()
@@ -426,7 +427,7 @@ class DatabaseHandler:
             return alert
                   
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
     def check_alert(self, alert_id, user_id):
             conn = self.connection()
@@ -444,7 +445,7 @@ class DatabaseHandler:
                 flash('Alert Checked...' , category='success')
                     
             except Exception as e:
-                flash(str({e}), category='danger')
+                flash(Messages.default_error, category='danger')
         
     def create_alert(self, alert):
         conn = self.connection()
@@ -460,7 +461,7 @@ class DatabaseHandler:
             conn.close()
 
         except Exception as e:
-            flash(str({e}), category='danger')
+            flash(Messages.default_error, category='danger')
 
 
     #for testing purpose

@@ -9,10 +9,12 @@
   </head>
   <body>
     <div class="fixed-bottom d-flex justify-content-end p-3" style="left: auto;">
+        {% if not login %}
       <div class="mr-3 mb-3">
           <a class="btn btn-secondary" href="{{url_for('common_bp.inform_police')}}">Inform Police</a>
           <a class="btn btn-secondary" href="{{url_for('common_bp.disable_transaction')}}">Disable Transaction</a>
       </div>
+        {% endif %}
     </div>
     
     

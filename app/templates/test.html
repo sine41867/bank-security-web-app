@@ -7,27 +7,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <div id="data-div">Initial Content</div>
-
-    <script>
-        function fetchData() {
-            $.ajax({
-                url: '/get-data',
-                type: 'GET',
-                success: function(response) {
-                    $('#data-div').text(response.message);
-                },
-                error: function(error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        // Call fetchData every 5 seconds (5000 milliseconds)
-        setInterval(fetchData, 1000);
-        
-        // Initial call to populate the div when the page loads
-        fetchData();
-    </script>
+    {% set login = 1 %}
+    {% include 'components/footer.html'%}
+    <div class="fixed-bottom d-flex justify-content-start p-3 ml-3 mb-3" style="right: auto;">
+    <a href="{{url_for('common_bp.view_alerts')}}">
+        <div id="data-div" class="btn btn-danger"></div>
+      </a>
+  </div>
+  
 </body>
 </html>

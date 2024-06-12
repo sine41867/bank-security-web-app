@@ -1,8 +1,9 @@
-import cv2
+#import cv2 # type: ignore
 
 class CameraHandler:
     def gen_frames():  
-        camera = cv2.VideoCapture(0)  # Use 0 for web camera
+        return None
+        camera = cv2.VideoCapture(0) 
         while True:
             success, frame = camera.read()
             if not success:

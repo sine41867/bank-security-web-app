@@ -15,7 +15,7 @@
     </div>
 
     <div class="container">
-      <img src="{{ url_for('video_feed') }}" width="100%">
+      <img src="{{ url_for('officer_bp.video_feed') }}" width="100%">
       <video id="videoStream" width="100%" autoplay></video>
     </div>
 
@@ -28,7 +28,7 @@
 
   <script>
     var video = document.getElementById('videoStream');
-    video.src = '{{ url_for("video_feed") }}';
+      video.src = '{{ url_for("officer_bp.video_feed") }}';
     video.type = 'video/mjpeg';
   </script>
   

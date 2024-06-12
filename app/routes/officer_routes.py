@@ -19,7 +19,7 @@ def home():
 #@login_required
 #@officer_required
 def live_footages():
-    return render_template('officer/home.html')
+    return render_template('officer/live_footages.html')
 
 @officer_bp.route('/video_feed')
 def video_feed():

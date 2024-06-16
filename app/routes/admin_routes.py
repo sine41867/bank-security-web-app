@@ -98,7 +98,7 @@ def create_account():
         user_id = request.form['user_id']
         user_type = request.form['user_type']
         password = request.form['password']
-        time_stamp = datetime.now()
+        time_stamp = datetime.datetime.now()
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
         

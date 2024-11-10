@@ -3,7 +3,7 @@ class Messages:
     default_error = "An Error Occured..."
     db_connection_error = "Can't Connect to Database"
     deactivated_account = "Your Account is deactivated."
-    invalid_password = "Invalid Passoword"
+    invalid_password = "Invalid Password"
     invalid_user_id = 'Invalid User ID'
     invalid_cif_no = 'Invalid CIF Number'
     invalid_robber_id = 'Invalid Robber ID'
@@ -15,7 +15,7 @@ class Messages:
     robber_creation_success = "Robber Inserted Successfully"
     blacklisted_deleted_success = "Blacklisted Customer Deleted Successfully"
     robber_deleted_success = "Robber Deleted Successfully"
-    user_deleted_success = "Account Deleted Succesfully"
+    user_deleted_success = "Account Deleted Successfully"
     password_reset_success = "Password Reset Successfully"
     user_activate_success = "User Activated"
     activate_own_account_error = "You can not activate your own account."

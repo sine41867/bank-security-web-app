@@ -4,24 +4,35 @@
         <a class="navbar-brand">Bank Name</a>
       </div>
       <div class="nav-itm d-flex">
-        
+      <!--
       {% if current_user.user_type == 1 %}
       <a class="nav-link" href="{{url_for('admin_bp.home')}}">Home</a>
       {% endif %}
       {% if current_user.user_type == 0 %}
       <a class="nav-link" href="{{url_for('officer_bp.home')}}">Home</a>
       {% endif %}
+      <a class="nav-link mx-3" href="{{url_for('common_bp.profile')}}"><i class="fa fa-user px-3" aria-hidden="true"></i>{{current_user.user_id}}</a>
       <a class="nav-link mx-3" href="{{url_for('common_bp.logout')}}">Logout</a>
       </div>
-      <!--
+      -->
       <div class="nav-item dropdown">
-        <button class="nav-link dropdown-toggle" href="{{url_for('common_bp.logout')}}" data-bs-toggle="dropdown" aria-expanded="false">Logout</button>
+        <button class="nav-link dropdown-toggle" href="{{url_for('common_bp.logout')}}" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user px-3" aria-hidden="true"></i></button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#">Home</a></li>
-          <li><a class="dropdown-item" href="{{url_for('common_bp.logout')}}">Log Out</a></li>
+
+          {% if current_user.user_type == 1 %}
+          <li><a class="dropdown-item" href="{{url_for('admin_bp.home')}}"><i class="fa fa-home px-3" aria-hidden="true"></i>Home</a></li>
+          {% endif %}
+
+          {% if current_user.user_type == 0 %}
+          <li><a class="dropdown-item" href="{{url_for('officer_bp.home')}}"><i class="fa fa-home px-3" aria-hidden="true"></i>Home</a></li>
+          {% endif %}
+          
+          <li><a class="dropdown-item" href="{{url_for('common_bp.profile')}}"><i class="fa fa-user px-3" aria-hidden="true"></i>Profile</a></li>
+          <hr class="mt-0 mb-0">
+          <li><a class="dropdown-item" href="{{url_for('common_bp.logout')}}"><i class="fa fa-sign-out px-3" aria-hidden="true"></i>Log Out</a></li>
         </ul>
       </div>
 
-      -->
+
     </div>
   </nav>

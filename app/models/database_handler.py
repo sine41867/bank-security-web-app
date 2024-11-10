@@ -463,7 +463,31 @@ class DatabaseHandler:
         except Exception as e:
             flash(Messages.default_error, category='danger')
 
+    def get_all_users(self, search_text):
+        conn = self.connection()
+        
+        if not conn :
+            return
+        
+        try:
+            cursor = conn.cursor()
+            if search_text:
+                query = "SELECT user_id, type, inserted_by, time FROM tbl_users WHERE user_id LIKE %s OR type LIKE %s OR time LIKE %s"
+                data = ('%' + search_text + '%', '%' + search_text + '%', '%' + search_text + '%')
+                cursor.execute(query, data)
+                
+            else:
+                query = "SELECT user_id, type, inserted_by, time FROM tbl_users"
+                cursor.execute(query)
+            
+            users = cursor.fetchall()
+            conn.close()
 
+            return users
+                  
+        except Exception as e:
+            flash(Messages.default_error, category='danger')
+    
     #for testing purpose
     def test(self):
         from app import bcrypt

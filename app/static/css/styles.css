@@ -27,3 +27,61 @@ table{
 .clickable-row {
     cursor: pointer;
   }
+
+.floating-nav{
+    z-index: 1;
+   width: 75px;
+   background-color: transparent;
+   position: fixed;
+   bottom: 100px;
+   margin: 10px 5px 10px 10px;
+   padding: 25px 5px;
+   color: black;
+
+}
+
+#floatingNavLinks{
+    background-color: white;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+ }
+
+#floatingNavLinks a{
+    margin-top: 5px;
+    padding: 5px 5px;
+    margin-bottom: 5px;
+    border-radius: 50px;
+    transition: 0.5s;
+}
+
+#floatingNavLinks a:hover{
+    background-color: rgb(231, 231, 231);
+}
+
+.floating-nav .btn{
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 2px;
+    border-radius: 50px;
+    transition: 1s;
+    opacity: 0.3;
+}
+
+.floating-nav .btn:hover{
+    opacity: 1;
+    background-color: rgb(196, 196, 196);
+}
+
+#floatingNavLinks.hidden {
+    pointer-events: none; 
+}
+
+#floatingNavLinks.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }

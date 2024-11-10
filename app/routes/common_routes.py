@@ -3,6 +3,7 @@ from flask_login import login_required, logout_user, login_user, current_user
 import base64
 from app.models.database_handler import DatabaseHandler
 from app.models.alert import Alert
+from app.models.user import User
 #from ...config import Config
 import datetime
 from app.models.messages import Messages
@@ -57,12 +58,6 @@ def disable_transaction():
 
     return redirect(url_for("common_bp.login"))
 
-#for testing purpose
-@common_bp.route('/test',)
-def test():
-    #return dbHandler.test()
-    #return "Test Success"
-    return render_template('test.html')
 
 @common_bp.route('/', methods=['GET', 'POST'])
 def login():
@@ -168,7 +163,6 @@ def search_robbers():
     return jsonify(robber)
 
 
-#-------------------------------------------------------------------
 @common_bp.route('/view_alerts')
 @login_required
 def view_alerts():
@@ -212,4 +206,49 @@ def check_alert(alert_id):
     dbHandler.check_alert(alert_id, current_user.user_id)
     data['message'] = ""
     return redirect(url_for("common_bp.alert_details", alert_id = alert_id))
-   
+
+
+@common_bp.route('/reset_password', methods=['GET', 'POST'])
+@login_required
+def reset_password():
+    from app import bcrypt
+    if request.method == 'POST':
+        current_password = request.form['current_password']
+        password = request.form['password']
+
+        user = dbHandler.check_credential(user_id=current_user.user_id, password= current_password)
+
+        if user:
+            hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    
+            user = User(current_user.user_id,None,None,None,hashed_password)  
+
+            dbHandler.reset_password(user)
+
+        return redirect(url_for('common_bp.reset_password'))
+
+    return render_template('common/reset_password.html')
+
+
+@common_bp.route('/profile')
+@login_required
+def profile():
+    return render_template('common/profile.html')
+
+@common_bp.route('/search_user', methods = ['GET'])
+@login_required
+def search_user():
+    search_text = request.args.get('search_text', '')
+
+    dbHandler = DatabaseHandler()
+    users = dbHandler.get_all_users(search_text)
+
+    return jsonify(users)
+
+
+#for testing purpose
+@common_bp.route('/test',)
+def test():
+    #return dbHandler.test()
+    #return "Test Success"
+    return render_template('test.html')

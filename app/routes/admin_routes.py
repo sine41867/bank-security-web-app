@@ -58,22 +58,11 @@ def insert_blacklisted_customer():
         description = request.form['description']
         file = request.files['image']
         
-        '''
-        # Handle the image file
-        if 'image' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        
-        
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        '''
 
         if file and allowed_file(file.filename):
             photo = file.read()
 
-            time_stamp = datetime.now()
+            time_stamp = datetime.datetime.now()
 
             blacklisted_customer = BlacklistedCustomer(
                 cif_no=cif_no,
@@ -104,7 +93,6 @@ def create_account():
         
         user = User(user_id,user_type,current_user.user_id,time_stamp,hashed_password)
         
-
         dbHandler.insert_user(user)
 
         return redirect(url_for('admin_bp.create_account'))
@@ -191,19 +179,7 @@ def insert_robber():
         description = request.form['description']
         file = request.files['image']
 
-        '''
-        
-        if 'image' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        
-        
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        
-            '''
-
+    
         if file and allowed_file(file.filename):
             photo = file.read()
 
@@ -222,3 +198,14 @@ def insert_robber():
             return redirect(url_for('admin_bp.insert_robber'))
 
     return render_template('admin/insert_robber.html')
+
+
+@admin_bp.route('/view_users')
+@login_required
+@admin_required
+def view_users():
+
+    dbHandler = DatabaseHandler()
+    users = dbHandler.get_all_users(None)
+
+    return render_template('admin/view_users.html', users = users)

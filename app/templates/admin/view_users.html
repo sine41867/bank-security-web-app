@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>View | Users</title>
+</head>
+
+<body>
+  {% include "components/navbar.html" %}
+
+  <div class="mb-5 mt-4">
+    <p class="h4 center text-center ">VIEW USERS</p>
+  </div>
+
+  <div class="container my-3">
+    <div class="row justify-content-end">
+      <div class="col-3">
+        <div class="input-group mx-0">
+          <input type="text" class="form-control" id="search_text_user" name="search_text_user">
+          <div class="input-group-text">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr class="table-dark">
+          <th scope="col">No</th>
+          <th scope="col">User ID</th>
+          <th scope="col">Type</th>
+          <th scope="col">Inserted By</th>
+          <th scope="col">Time</th>
+        </tr>
+      </thead>
+      <tbody id="user_table_body">
+        
+        {% for user in users %}
+          
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ user[0] }}</td>
+              {% if user[1] == 1 %}
+                <td>Admin</td>
+              {% endif %}
+              {% if user[1] == 0 %}
+                <td>Officer</td>
+              {% endif %}
+              <td>{{ user[2] }}</td>
+              <td>{{ user[3] }}</td>
+          </tr>
+          
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+  {% include 'components/footer.html' %}
+    <div class="fixed-bottom d-flex justify-content-start p-3 ml-3 mb-3" style="right: auto;">
+    <a href="{{url_for('common_bp.view_alerts')}}">
+        <div id="data-div" class="btn btn-danger"></div>
+      </a>
+  </div>
+  
+    <script src="{{ url_for('static', filename='js/new-alert.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{{ url_for('static', filename='js/script-user.js') }}"></script> 
+
+</body>
+</html>

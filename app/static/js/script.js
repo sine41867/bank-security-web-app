@@ -79,6 +79,14 @@ function togglePass(passwordBox, icon){
 }
 }
 
+function toggleCurrentPassword(passwordBox, icon){
+  var passwordBox = document.getElementById("current_password");
+  var icon = document.getElementById("show_hide_current_password");
+
+  togglePass(passwordBox, icon)
+  
+}
+
 $(document).ready(function(){
   $('.toast').toast('show');
 });
@@ -89,3 +97,54 @@ rows.forEach(function(row) {
     window.location = this.dataset.href;
   });
 });
+
+/*
+function toggleNavPanel() {
+  const floatingNavLinks = document.getElementById("floatingNavLinks");
+  const btnToggleNavPanel = document.getElementById("btnToggleNavPanel");
+
+  if (floatingNavLinks.classList.contains("hidden")) {
+    floatingNavLinks.classList.remove("hidden");
+    btnToggleNavPanel.classList.replace("fa-chevron-right", "fa-chevron-left");
+  } else {
+    floatingNavLinks.classList.add("hidden");
+    btnToggleNavPanel.classList.replace("fa-chevron-left", "fa-chevron-right");
+  }
+}
+*/
+// Function to apply saved state on page load
+function applyNavPanelState() {
+  const floatingNavLinks = document.getElementById("floatingNavLinks");
+  const btnToggleNavPanel = document.getElementById("btnToggleNavPanel");
+  const savedState = localStorage.getItem("navPanelState");
+
+  // Apply the saved state immediately on page load
+  if (savedState === "closed") {
+    floatingNavLinks.classList.add("hidden");
+    btnToggleNavPanel.classList.replace("fa-chevron-left", "fa-chevron-right");
+  } else {
+    floatingNavLinks.classList.add("visible");
+    btnToggleNavPanel.classList.replace("fa-chevron-right", "fa-chevron-left");
+  }
+}
+
+// Toggle function with localStorage
+function toggleNavPanel() {
+  const floatingNavLinks = document.getElementById("floatingNavLinks");
+  const btnToggleNavPanel = document.getElementById("btnToggleNavPanel");
+
+  if (floatingNavLinks.classList.contains("hidden")) {
+    floatingNavLinks.classList.remove("hidden");
+    floatingNavLinks.classList.add("visible");
+    btnToggleNavPanel.classList.replace("fa-chevron-right", "fa-chevron-left");
+    localStorage.setItem("navPanelState", "open");
+  } else {
+    floatingNavLinks.classList.remove("visible");
+    floatingNavLinks.classList.add("hidden");
+    btnToggleNavPanel.classList.replace("fa-chevron-left", "fa-chevron-right");
+    localStorage.setItem("navPanelState", "closed");
+  }
+}
+
+// Call the function right away to apply state as early as possible
+applyNavPanelState();

@@ -1,0 +1,28 @@
+<div class="floating-nav">
+  
+  <div class="flex-column text-center">
+    <div id="floatingNavLinks" class="nav-itm flex-column">
+      
+      {% if current_user.user_type == 1 %}
+          <a class="nav-link fs-4" href="{{url_for('admin_bp.home')}}"><i class="fa fa-home" aria-hidden="true"></i></a>
+          <a class="nav-link fs-4" href="{{url_for('admin_bp.users')}}"><i class="fa fa-users" aria-hidden="true"></i></a>
+          <a class="nav-link fs-4" href="{{url_for('admin_bp.blacklisted_customers')}}"><i class="fa fa-user-times" aria-hidden="true"></i></a>
+          <a class="nav-link fs-4" href="{{url_for('admin_bp.robbers')}}"><i class="fa fa-user-secret" aria-hidden="true"></i></a>
+      {% endif %}
+
+      {% if current_user.user_type == 0 %}
+          <a class="nav-link fs-4" href="{{url_for('officer_bp.home')}}"><i class="fa fa-home" aria-hidden="true"></i></a>
+          <a class="nav-link fs-4" href="{{url_for('common_bp.view_blacklisted_customers')}}"><i class="fa fa-user-times" aria-hidden="true"></i></a>
+          <a class="nav-link fs-4" href="{{url_for('common_bp.view_robbers')}}"><i class="fa fa-user-secret" aria-hidden="true"></i></a>
+      {% endif %}
+
+      <a class="nav-link fs-4" href="{{url_for('common_bp.view_alerts')}}"><i class="fa fa-bell" aria-hidden="true"></i></a>
+      
+     </div>
+    <div class="btn float-center mt-2" onclick="toggleNavPanel()">
+      <i class="fa fa-chevron-left" id="btnToggleNavPanel" ></i>
+    </div>
+  </div>
+
+</div>
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    {% include 'components/header.html '%}
+    <title>Profile | User</title>
+</head>
+
+<body>
+    {% include 'components/navbar.html' %}
+
+    <div class="mb-5 mt-4">
+        <p class="h4 center text-center ">Profile</p>
+    </div>
+
+    <div class="d-flex flex-row justify-content-center">
+      <a href="{{url_for('common_bp.reset_password')}}" class="card col-2 py-3 mx-3">
+        <p class="text-center">
+          <i class="fa fa-unlock-alt" style="font-size: 80px;"></i>
+        </p>
+        <div class="card-body">
+          <h5 class="card-title text-center">Reset Password</h5>
+        </div>
+      </a>
+      
+      </div>
+
+    {% include 'components/footer.html' %}
+    <div class="fixed-bottom d-flex justify-content-start p-3 ml-3 mb-3" style="right: auto;">
+    <a href="{{url_for('common_bp.view_alerts')}}">
+        <div id="data-div" class="btn btn-danger"></div>
+      </a>
+  </div>
+  
+    <script src="{{ url_for('static', filename='js/new-alert.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+</body>
+</html>

@@ -94,3 +94,14 @@ table{
     border: 2px solid #545454;
     color: #545454;
 }
+
+#data-div{
+    padding: 0;
+    background-color: transparent;
+    color: red;
+    font-weight: 900;
+    border: none;
+    text-decoration: underline;
+    font-size: large;
+    
+}

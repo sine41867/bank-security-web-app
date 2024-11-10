@@ -3,8 +3,10 @@
     'use strict'
 
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const login_form = document.querySelectorAll('.needs-validation-login')
     const forms = document.querySelectorAll('.needs-validation')
     const forms_password = document.querySelectorAll('.needs-validation-password')
+
 
     // Loop over them and prevent submission
     Array.from(forms).forEach(form => {
@@ -12,10 +14,25 @@
         if (!form.checkValidity()) {
           event.preventDefault()
           event.stopPropagation()
+        }else{
+          event.preventDefault()
+          event.stopPropagation()
+          Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            iconColor : "#545454",
+            showCancelButton: true,
+            confirmButtonText: "Yes"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              event.target.submit();
+            }
+          });
         }
 
         form.classList.add('was-validated')
       }, false)
+      
     })
 
     Array.from(forms_password).forEach(form => {
@@ -23,6 +40,20 @@
         if (!form.checkValidity() || !passwordsMatch()) {
           event.preventDefault()
           event.stopPropagation()
+        }else{
+          event.preventDefault()
+          event.stopPropagation()
+          Swal.fire({
+            title: "Are you sure?",
+            icon: "warning",
+            iconColor : "#545454",
+            showCancelButton: true,
+            confirmButtonText: "Yes"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              event.target.submit();
+            }
+          });
         }
 
         form.classList.add('was-validated')
@@ -33,6 +64,18 @@
       confirmPasswordInput.addEventListener('input', () => {
         passwordsMatch();
       });
+    })
+
+    Array.from(login_form).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+      
     })
 
     const passwordsMatch = () => {
@@ -148,3 +191,21 @@ function toggleNavPanel() {
 
 // Call the function right away to apply state as early as possible
 applyNavPanelState();
+
+
+function confirmAction(event){
+
+  var url = event.target.getAttribute('data-url');
+
+  Swal.fire({
+    title: "Are you sure?",
+    icon: "warning",
+    iconColor : "#545454",
+    showCancelButton: true,
+    confirmButtonText: "Yes"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = url;
+    }
+  });
+}

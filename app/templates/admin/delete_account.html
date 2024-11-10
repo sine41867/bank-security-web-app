@@ -5,19 +5,23 @@
 <head>
     {% include 'components/header.html '%}
     <title>Delete Account | Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.22/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
 <body>
   {% include "components/navbar.html" %}
-
+  
 
 
     <div class="container mt-5 mb-3 p-3">
         <div class="mx-auto shadow px-5 pt-4 pb-4 border rounded" style="width: 400px;">
             <p class="h5 center text-center">DELETE ACCOUNT</p>
       
-            <form class="row g-3 needs-validation mt-2" method="POST" novalidate>
-              
+            <form class="row g-3 needs-validation mt-2" method="POST" novalidate >
+
               <div>
                 <label for="user_id" class="form-label">User ID</label>
                 <input type="text" class="form-control" id="user_id" name="user_id" pattern="\d{5}" required>
@@ -31,9 +35,9 @@
                 <button class="btn btn-dark py-2 fw-bold" type="submit">DELETE</button>
               </div>
             </form>
-      
           </div>
     </div>
+    
 
     {% include 'components/footer.html' %}
     <div class="fixed-bottom d-flex justify-content-start p-3 ml-3 mb-3" style="right: auto;">
@@ -41,9 +45,12 @@
         <div id="data-div" class="btn btn-danger"></div>
       </a>
   </div>
+
+ 
   
     <script src="{{ url_for('static', filename='js/new-alert.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
+
 </body>
 </html>

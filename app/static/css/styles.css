@@ -85,3 +85,12 @@ table{
     opacity: 1;
     transform: translateX(0);
   }
+
+
+.swal2-confirm, .swal2-cancel {
+    width: 120px;  
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid #545454;
+    color: #545454;
+}

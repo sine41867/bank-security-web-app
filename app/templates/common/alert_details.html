@@ -53,7 +53,7 @@
               <td>Checked By</td>
               <td>
                 {% if not alert[7] %}
-                  <a class="btn btn-danger" href="{{ url_for('common_bp.check_alert', alert_id=alert[0]) }}">Check</a>
+                  <a class="btn btn-danger" onclick="confirmAction(event)" data-url="{{ url_for('common_bp.check_alert', alert_id=alert[0]) }}">Check</a>
                 {% else %}
                   {{alert[7]}}
                 {% endif %}

@@ -250,5 +250,5 @@ def search_user():
 @common_bp.route('/test',)
 def test():
     #return dbHandler.test()
-    #return "Test Success"
-    return render_template('test.html')
+    return "Test Success"
+    #return render_template('test.html')
